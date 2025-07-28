@@ -5,13 +5,22 @@ This repository includes a small utility script that removes the common backgrou
 ## Usage
 1. Place your input folders in `background_removal/input_files`.
 2. Install dependencies: `pip install -r requirements.txt`.
-3. Run the script:
+3. Run the traditional median-background remover:
 
 ```bash
 python background_removal/batch_background_removal.py
 ```
 
 The script computes a median background from each folder and removes it from every image, outputting PNG images with an alpha channel containing the transparency mask.
+
+### Neural network background removal
+For tougher cases you can instead run the `rembg`-powered version:
+
+```bash
+python background_removal/nn_background_removal.py
+```
+
+Results will be written to `background_removal/output_files_nn/persp_<index>`.
 
 ## Initial Cropping Utility
 Sometimes the captured images include a large amount of empty space around the turntable.  The
