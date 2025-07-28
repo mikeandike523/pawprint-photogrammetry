@@ -1,5 +1,6 @@
 input_files/*
 intermediate_files/*
 output_files/*
+output_files_nn/*
 
 !**/.gitkeep
