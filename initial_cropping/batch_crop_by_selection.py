@@ -1,6 +1,8 @@
 import shutil
-import cv2
 from pathlib import Path
+
+import cv2
+from PIL import Image
 
 
 def select_roi(sample_image_path: Path):
@@ -54,12 +56,14 @@ def crop_folder(folder: Path, output_root: Path, crop_rect):
 
     image_paths = [p for p in folder.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}]
     for path in sorted(image_paths):
-        img = cv2.imread(str(path))
-        if img is None:
-            print(f"Skipping unreadable image {path}")
-            continue
-        cropped = img[y : y + h, x : x + w]
-        cv2.imwrite(str(output_root / path.name), cropped)
+        try:
+            with Image.open(path) as img:
+                exif = img.info.get("exif")
+                cropped = img.crop((x, y, x + w, y + h))
+                save_kwargs = {"exif": exif} if exif else {}
+                cropped.save(output_root / path.name, **save_kwargs)
+        except Exception as e:
+            print(f"Skipping unreadable image {path}: {e}")
 
 
 def main():

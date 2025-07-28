@@ -1,7 +1,9 @@
 import shutil
+from pathlib import Path
+
 import cv2
 import numpy as np
-from pathlib import Path
+from PIL import Image
 
 
 def process_folder(folder: Path, output_root: Path, threshold: int = 15):
@@ -71,7 +73,15 @@ def process_folder(folder: Path, output_root: Path, threshold: int = 15):
         fg = cv2.bitwise_and(img, img, mask=mask)
         fg = cv2.cvtColor(fg, cv2.COLOR_BGR2BGRA)
         fg[:, :, 3] = mask
-        cv2.imwrite(str(output_root / path.name), fg)
+
+        # Preserve EXIF metadata when saving
+        with Image.open(path) as src_img:
+            exif = src_img.info.get("exif")
+
+        output_path = output_root / path.name
+        fg_pil = Image.fromarray(cv2.cvtColor(fg, cv2.COLOR_BGRA2RGBA))
+        save_kwargs = {"exif": exif} if exif else {}
+        fg_pil.save(output_path, **save_kwargs)
 
 
 def main():
