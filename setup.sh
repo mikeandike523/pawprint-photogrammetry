@@ -24,6 +24,8 @@ else
     python3 -m venv .venv
 fi
 
+chmod +x ./__python
+
 echo "Installing pip dependencies..."
 ./__python -m pip install -r requirements.txt
 
