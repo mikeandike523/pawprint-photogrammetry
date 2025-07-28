@@ -25,6 +25,6 @@ and crop every image to that rectangle.
    python initial_cropping/batch_crop_by_selection.py
    ```
 
-3. A window will open showing the first image.  Draw a rectangle around the desired area and
-   press <kbd>Enter</kbd>.  All images will be cropped to this selection and written to
-   `initial_cropping/output_files`.
+3. For each perspective folder, a window opens showing the first image. Draw a rectangle
+   around the desired area and press <kbd>Enter</kbd>. Only the images in that folder will be
+   cropped to the chosen selection and written to `initial_cropping/output_files`.

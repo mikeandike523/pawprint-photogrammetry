@@ -76,20 +76,20 @@ def main():
         print(f"No perspective folders found in {input_root}")
         return
 
-    # Use first image of first folder as sample for ROI selection
-    first_folder = folders[0]
-    sample_images = [p for p in first_folder.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}]
-    if not sample_images:
-        print(f"No images found in {first_folder} for ROI selection")
-        return
-
-    try:
-        crop_rect = select_roi(sample_images[0])
-    except ValueError as e:
-        print(e)
-        return
-
     for folder in folders:
+        image_paths = [p for p in folder.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}]
+        if not image_paths:
+            print(f"No images found in {folder} for ROI selection")
+            continue
+
+        print(f"\nSelecting ROI for {folder.name}...")
+        try:
+            crop_rect = select_roi(image_paths[0])
+        except ValueError as e:
+            print(e)
+            print(f"Skipping folder {folder.name}")
+            continue
+
         crop_folder(folder, output_root / folder.name, crop_rect)
 
 
