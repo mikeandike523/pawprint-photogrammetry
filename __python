@@ -1,0 +1,8 @@
+#!/bin/bash
+
+script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# prepend our script_dir onto PYTHONPATH (use ‘;’ only if PYTHONPATH is non-empty)
+export PYTHONPATH="$script_dir${PYTHONPATH:+;$PYTHONPATH}"
+
+"$script_dir/.venv/Scripts/python.exe" "$@"
