@@ -13,7 +13,17 @@ echo "Removing .venv (if exists)..."
 rm -rf .venv
 
 echo "Creating python virtual environment (.venv)..."
-python -m venv .venv
+
+# Detect OS and create virtual environment accordingly
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]; then
+    # on windows
+    echo "Detected Windows environment"
+    python -m venv .venv
+else
+    # on unix, assuming python3-virtualenv installed
+    echo "Detected Unix-like environment"
+    python3 -m virtualenv .venv
+fi
 
 echo "Installing pip dependencies..."
 ./__python -m pip install -r requirements.txt
