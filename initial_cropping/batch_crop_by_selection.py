@@ -11,16 +11,38 @@ def select_roi(sample_image_path: Path):
     if img is None:
         raise ValueError(f"Failed to load sample image: {sample_image_path}")
 
-    roi = cv2.selectROI(
-        "Select ROI and press ENTER",
+    # Downsample the image by a factor of 4 solely for ROI selection.  This
+    # speeds up rendering of large images and makes it easier to select a
+    # region on high‑resolution photos.  The returned rectangle will later be
+    # scaled back up to match the original resolution.
+    scale = 4
+    display_img = cv2.resize(
         img,
+        (img.shape[1] // scale, img.shape[0] // scale),
+        interpolation=cv2.INTER_AREA,
+    )
+
+    roi_down = cv2.selectROI(
+        "Select ROI and press ENTER",
+        display_img,
         fromCenter=False,
         showCrosshair=True,
     )
     cv2.destroyAllWindows()
-    x, y, w, h = roi
+
+    x, y, w, h = roi_down
     if w == 0 or h == 0:
         raise ValueError("ROI selection cancelled or invalid")
+
+    # Scale the selection back up to the original image size and clamp it to
+    # the image bounds in case rounding caused a slight over‑run.
+    x = int(x * scale)
+    y = int(y * scale)
+    w = int(w * scale)
+    h = int(h * scale)
+    w = min(w, img.shape[1] - x)
+    h = min(h, img.shape[0] - y)
+
     return x, y, w, h
 
 
