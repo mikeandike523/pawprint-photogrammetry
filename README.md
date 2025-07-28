@@ -12,3 +12,19 @@ python background_removal/batch_background_removal.py
 ```
 
 The script computes a median background from each folder and removes it from every image, outputting PNG images with an alpha channel containing the transparency mask.
+
+## Initial Cropping Utility
+Sometimes the captured images include a large amount of empty space around the turntable.  The
+`initial_cropping` folder contains a helper script to manually select a region of interest (ROI)
+and crop every image to that rectangle.
+
+1. Place the input perspective folders in `initial_cropping/input_files`.
+2. Run the script:
+
+   ```bash
+   python initial_cropping/batch_crop_by_selection.py
+   ```
+
+3. A window will open showing the first image.  Draw a rectangle around the desired area and
+   press <kbd>Enter</kbd>.  All images will be cropped to this selection and written to
+   `initial_cropping/output_files`.
