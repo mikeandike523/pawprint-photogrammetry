@@ -20,9 +20,8 @@ if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]; t
     echo "Detected Windows environment"
     python -m venv .venv
 else
-    # on unix, assuming python3-virtualenv installed
     echo "Detected Unix-like environment"
-    python3 -m virtualenv .venv
+    python3 -m venv .venv
 fi
 
 echo "Installing pip dependencies..."
