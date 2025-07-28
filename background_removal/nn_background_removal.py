@@ -20,7 +20,9 @@ def process_folder(folder: Path, output_root: Path) -> None:
         with Image.open(path) as img:
             img = img.convert("RGBA")
             result = remove(img)
-            result.save(output_root / path.name)
+            # Change the file extension to .png to support transparency
+            output_path = output_root / f"{path.stem}.png"
+            result.save(output_path)
 
 
 def main() -> None:
