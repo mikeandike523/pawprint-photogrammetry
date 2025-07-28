@@ -63,7 +63,7 @@ def process_folder(folder: Path, output_root: Path, threshold: int = 15):
             filtered_mask = np.zeros_like(mask)
             for label in range(1, num_labels):  # Skip background (label 0)
                 area = stats[label, cv2.CC_STAT_AREA]
-                if area >= 100:  # Keep components with 100+ pixels
+                if area >= 1000:  # Keep components with 100+ pixels
                     filtered_mask[labels == label] = 255
             mask = filtered_mask
 
