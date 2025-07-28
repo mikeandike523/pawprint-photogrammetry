@@ -1,3 +1,4 @@
+import shutil
 import cv2
 from pathlib import Path
 
@@ -65,6 +66,9 @@ def main():
     repo_root = Path(__file__).resolve().parents[1]
     input_root = repo_root / "initial_cropping" / "input_files"
     output_root = repo_root / "initial_cropping" / "output_files"
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    shutil.rmtree(output_root, ignore_errors=True)
     output_root.mkdir(parents=True, exist_ok=True)
 
     folders = sorted([p for p in input_root.glob("persp_*") if p.is_dir()])
